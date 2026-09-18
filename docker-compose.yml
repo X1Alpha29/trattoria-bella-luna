@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: trattoria-bella-luna-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: bellaluna
+      POSTGRES_PASSWORD: devpassword
+      POSTGRES_DB: bella_luna_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - bella_luna_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  bella_luna_postgres_data:
