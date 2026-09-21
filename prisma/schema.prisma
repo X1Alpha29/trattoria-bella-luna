@@ -1,6 +1,7 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  importFileExtension = "ts"
 }
 
 datasource db {
@@ -74,6 +75,8 @@ model MenuItem {
   price        Decimal  @db.Decimal(10, 2)
   imageUrl     String?
   isAvailable  Boolean  @default(true)
+  isFeatured   Boolean      @default(false)
+  featuredOrder Int?
   dietaryTags  String[]
   displayOrder Int      @default(0)
   createdAt    DateTime @default(now())
