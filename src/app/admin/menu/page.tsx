@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { getAdminMenu } from "@/lib/admin";
 import MenuItemEditForm from "@/components/admin/MenuItemEditForm";
+import MenuItemCreateForm from "@/components/admin/MenuItemCreateForm";
 
 export default async function AdminMenuPage() {
   const categories = await getAdminMenu();
@@ -21,6 +22,15 @@ export default async function AdminMenuPage() {
           Manage dishes, pricing, availability and featured items displayed
           on the restaurant website.
         </p>
+
+        <div className="mt-12">
+        <MenuItemCreateForm
+            categories={categories.map((category) => ({
+            id: category.id,
+            name: category.name,
+            }))}
+        />
+        </div>
 
         <div className="mt-12 space-y-12">
           {categories.map((category) => (
