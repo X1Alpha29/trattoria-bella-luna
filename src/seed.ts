@@ -23,7 +23,6 @@ async function main() {
   await prisma.review.deleteMany();
   await prisma.reservation.deleteMany();
   await prisma.galleryImage.deleteMany();
-  await prisma.teamMember.deleteMany();
   await prisma.menuItem.deleteMany();
   await prisma.menuCategory.deleteMany();
   await prisma.openingHour.deleteMany();
@@ -187,43 +186,6 @@ async function main() {
   });
 
   // --------------------------------------------------
-  // TEAM MEMBERS
-  // --------------------------------------------------
-
-  const marco = await prisma.teamMember.create({
-    data: {
-      name: "Marco Rossi",
-      role: "Head Chef",
-      bio: "Marco combines traditional Italian cooking with a modern London sensibility.",
-      imageUrl:
-        "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=900&q=85",
-      displayOrder: 1,
-    },
-  });
-
-  const sofia = await prisma.teamMember.create({
-    data: {
-      name: "Sofia Conti",
-      role: "Restaurant Manager",
-      bio: "Sofia creates the warm, welcoming atmosphere that defines Bella Luna.",
-      imageUrl:
-        "https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?auto=format&fit=crop&w=900&q=85",
-      displayOrder: 2,
-    },
-  });
-
-  const luca = await prisma.teamMember.create({
-    data: {
-      name: "Luca Bianchi",
-      role: "Sous Chef",
-      bio: "Luca specialises in handmade pasta and seasonal Italian produce.",
-      imageUrl:
-        "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=900&q=85",
-      displayOrder: 3,
-    },
-  });
-
-  // --------------------------------------------------
   // GALLERY
   // --------------------------------------------------
 
@@ -269,7 +231,6 @@ async function main() {
           "Beautiful food, thoughtful service and a wonderful atmosphere.",
         status: "APPROVED",
         isFeatured: true,
-        teamMemberId: marco.id,
       },
       {
         customerName: "Daniel Martin",
@@ -278,7 +239,6 @@ async function main() {
           "The pasta was exceptional and the whole evening felt special.",
         status: "APPROVED",
         isFeatured: true,
-        teamMemberId: sofia.id,
       },
       {
         customerName: "Sophie Turner",
@@ -287,7 +247,6 @@ async function main() {
           "A lovely restaurant with excellent food and friendly staff.",
         status: "APPROVED",
         isFeatured: true,
-        teamMemberId: luca.id,
       },
       {
         customerName: "James Harris",

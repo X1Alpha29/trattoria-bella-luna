@@ -37,10 +37,6 @@ export default async function AdminReviewsPage() {
                 </th>
 
                 <th className="px-6 py-4 font-body text-xs uppercase tracking-[0.15em] text-bella-muted">
-                  Staff
-                </th>
-
-                <th className="px-6 py-4 font-body text-xs uppercase tracking-[0.15em] text-bella-muted">
                   Status
                 </th>
               </tr>
@@ -65,10 +61,6 @@ export default async function AdminReviewsPage() {
                     {review.comment}
                   </td>
 
-                  <td className="px-6 py-5 font-body text-sm text-bella-charcoal">
-                    {review.teamMember?.name ?? "—"}
-                  </td>
-
                   <td className="px-6 py-5">
                     <ReviewStatusForm
                         reviewId={review.id}
@@ -81,7 +73,7 @@ export default async function AdminReviewsPage() {
               {reviews.length === 0 && (
                 <tr>
                   <td
-                    colSpan={5}
+                    colSpan={4}
                     className="px-6 py-16 text-center font-body text-sm text-bella-muted"
                   >
                     No reviews have been submitted yet.
