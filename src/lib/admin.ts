@@ -31,3 +31,18 @@ export async function getAdminReservations() {
     ],
   });
 }
+
+export async function getAdminReviews() {
+  return prisma.review.findMany({
+    include: {
+      teamMember: {
+        select: {
+          name: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+}
