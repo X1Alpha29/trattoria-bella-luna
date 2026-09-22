@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { getAdminMenu } from "@/lib/admin";
+import MenuItemEditForm from "@/components/admin/MenuItemEditForm";
 
 export default async function AdminMenuPage() {
   const categories = await getAdminMenu();
@@ -66,41 +67,18 @@ export default async function AdminMenuPage() {
                     </div>
 
                     <div className="p-6">
-                      <div className="flex items-start justify-between gap-4">
-                        <h3 className="font-display text-2xl text-bella-charcoal">
-                          {item.name}
-                        </h3>
-
-                        <span className="shrink-0 font-body text-sm text-bella-charcoal">
-                          £{item.price.toFixed(2)}
-                        </span>
-                      </div>
-
-                      <p className="mt-3 font-body text-sm leading-6 text-bella-muted">
-                        {item.description ?? "No description added."}
-                      </p>
-
-                      <div className="mt-5 flex flex-wrap gap-2">
-                        <span
-                          className={`border px-3 py-1 font-body text-[10px] uppercase tracking-[0.12em] ${
-                            item.isAvailable
-                              ? "border-bella-olive/20 bg-bella-olive/10 text-bella-olive"
-                              : "border-bella-line bg-bella-cream text-bella-muted"
-                          }`}
-                        >
-                          {item.isAvailable ? "Available" : "Unavailable"}
-                        </span>
-
-                        {item.isFeatured && (
-                          <span className="border border-bella-terracotta/20 bg-bella-terracotta/10 px-3 py-1 font-body text-[10px] uppercase tracking-[0.12em] text-bella-terracotta">
-                            Featured
-                          </span>
-                        )}
-                      </div>
-
-                      <p className="mt-4 font-body text-xs text-bella-muted">
-                        Display order: {item.displayOrder}
-                      </p>
+                      <MenuItemEditForm
+                        itemId={item.id}
+                        initialName={item.name}
+                        initialDescription={item.description ?? ""}
+                        initialPrice={item.price.toFixed(2)}
+                        initialImageUrl={item.imageUrl ?? ""}
+                        initialDietaryTags={item.dietaryTags}
+                        initialDisplayOrder={item.displayOrder}
+                        initialIsAvailable={item.isAvailable}
+                        initialIsFeatured={item.isFeatured}
+                        initialFeaturedOrder={item.featuredOrder}
+                      />
                     </div>
                   </article>
                 ))}
