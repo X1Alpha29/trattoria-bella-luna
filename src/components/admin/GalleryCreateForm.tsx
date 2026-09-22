@@ -54,84 +54,74 @@ export default function GalleryCreateForm() {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="border border-bella-line bg-bella-white p-6 sm:p-8"
-    >
-      <p className="font-body text-xs uppercase tracking-[0.2em] text-bella-olive">
-        Add image
-      </p>
-
-      <h2 className="mt-2 font-display text-3xl text-bella-charcoal">
-        New gallery image
-      </h2>
-
-      {error && (
-        <div
-          className="mt-6 border border-bella-terracotta/30 bg-bella-terracotta/10 p-4 font-body text-sm text-bella-terracotta"
-          role="alert"
-        >
-          {error}
-        </div>
-      )}
-
-      <div className="mt-8 space-y-5">
+    <details className="max-w-4xl border border-bella-line bg-bella-white">
+      <summary className="flex cursor-pointer list-none items-center justify-between px-6 py-5 sm:px-8">
         <div>
-          <label
-            htmlFor="gallery-url"
-            className="block font-body text-xs uppercase tracking-[0.15em] text-bella-muted"
-          >
-            Image URL
-          </label>
+          <p className="font-body text-xs uppercase tracking-[0.2em] text-bella-olive">
+            Add image
+          </p>
 
-          <input
-            id="gallery-url"
-            type="url"
-            required
-            value={url}
-            onChange={(event) => setUrl(event.target.value)}
-            disabled={isPending}
-            placeholder="https://..."
-            className="mt-2 w-full border border-bella-line bg-bella-cream px-3 py-3 font-body text-sm text-bella-charcoal outline-none focus:border-bella-olive"
-          />
+          <h2 className="mt-1 font-display text-2xl text-bella-charcoal">
+            New gallery image
+          </h2>
         </div>
 
-        <div>
-          <label
-            htmlFor="gallery-title"
-            className="block font-body text-xs uppercase tracking-[0.15em] text-bella-muted"
+        <span className="font-body text-2xl text-bella-charcoal">
+          +
+        </span>
+      </summary>
+
+      <form
+        onSubmit={handleSubmit}
+        className="border-t border-bella-line p-6 sm:p-8"
+      >
+        {error && (
+          <div
+            className="mb-6 border border-bella-terracotta/30 bg-bella-terracotta/10 p-4 font-body text-sm text-bella-terracotta"
+            role="alert"
           >
-            Title
-          </label>
+            {error}
+          </div>
+        )}
 
-          <input
-            id="gallery-title"
-            value={title}
-            onChange={(event) => setTitle(event.target.value)}
-            disabled={isPending}
-            className="mt-2 w-full border border-bella-line bg-bella-cream px-3 py-3 font-body text-sm text-bella-charcoal outline-none focus:border-bella-olive"
-          />
-        </div>
+        <div className="grid gap-5 md:grid-cols-2">
+          <div className="md:col-span-2">
+            <label
+              htmlFor="gallery-url"
+              className="block font-body text-xs uppercase tracking-[0.15em] text-bella-muted"
+            >
+              Image URL
+            </label>
 
-        <div>
-          <label
-            htmlFor="gallery-caption"
-            className="block font-body text-xs uppercase tracking-[0.15em] text-bella-muted"
-          >
-            Caption
-          </label>
+            <input
+              id="gallery-url"
+              type="url"
+              required
+              value={url}
+              onChange={(event) => setUrl(event.target.value)}
+              disabled={isPending}
+              placeholder="https://..."
+              className="mt-2 w-full border border-bella-line bg-bella-cream px-3 py-3 font-body text-sm text-bella-charcoal outline-none focus:border-bella-olive"
+            />
+          </div>
 
-          <textarea
-            id="gallery-caption"
-            value={caption}
-            onChange={(event) => setCaption(event.target.value)}
-            disabled={isPending}
-            rows={3}
-            className="mt-2 w-full resize-none border border-bella-line bg-bella-cream px-3 py-3 font-body text-sm leading-6 text-bella-charcoal outline-none focus:border-bella-olive"
-          />
-        </div>
+          <div>
+            <label
+              htmlFor="gallery-title"
+              className="block font-body text-xs uppercase tracking-[0.15em] text-bella-muted"
+            >
+              Title
+            </label>
 
-        <div className="grid gap-5 sm:grid-cols-2">
+            <input
+              id="gallery-title"
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
+              disabled={isPending}
+              className="mt-2 w-full border border-bella-line bg-bella-cream px-3 py-3 font-body text-sm text-bella-charcoal outline-none focus:border-bella-olive"
+            />
+          </div>
+
           <div>
             <label
               htmlFor="gallery-category"
@@ -156,6 +146,24 @@ export default function GalleryCreateForm() {
             </select>
           </div>
 
+          <div className="md:col-span-2">
+            <label
+              htmlFor="gallery-caption"
+              className="block font-body text-xs uppercase tracking-[0.15em] text-bella-muted"
+            >
+              Caption
+            </label>
+
+            <textarea
+              id="gallery-caption"
+              value={caption}
+              onChange={(event) => setCaption(event.target.value)}
+              disabled={isPending}
+              rows={3}
+              className="mt-2 w-full resize-none border border-bella-line bg-bella-cream px-3 py-3 font-body text-sm leading-6 text-bella-charcoal outline-none focus:border-bella-olive"
+            />
+          </div>
+
           <div>
             <label
               htmlFor="gallery-order"
@@ -174,27 +182,29 @@ export default function GalleryCreateForm() {
               className="mt-2 w-full border border-bella-line bg-bella-cream px-3 py-3 font-body text-sm text-bella-charcoal outline-none focus:border-bella-olive"
             />
           </div>
+
+          <label className="flex items-center gap-3 font-body text-sm text-bella-charcoal">
+            <input
+              type="checkbox"
+              checked={isFeatured}
+              onChange={(event) => setIsFeatured(event.target.checked)}
+              disabled={isPending}
+              className="h-4 w-4"
+            />
+            Featured image
+          </label>
+
+          <div className="md:col-span-2">
+            <button
+              type="submit"
+              disabled={isPending}
+              className="bg-bella-charcoal px-6 py-3 font-body text-xs uppercase tracking-[0.15em] text-bella-cream transition hover:bg-bella-olive disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {isPending ? "Adding..." : saved ? "Added" : "Add image"}
+            </button>
+          </div>
         </div>
-
-        <label className="flex items-center gap-3 font-body text-sm text-bella-charcoal">
-          <input
-            type="checkbox"
-            checked={isFeatured}
-            onChange={(event) => setIsFeatured(event.target.checked)}
-            disabled={isPending}
-            className="h-4 w-4"
-          />
-          Featured image
-        </label>
-
-        <button
-          type="submit"
-          disabled={isPending}
-          className="bg-bella-charcoal px-6 py-3 font-body text-xs uppercase tracking-[0.15em] text-bella-cream transition hover:bg-bella-olive disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          {isPending ? "Adding..." : saved ? "Added" : "Add image"}
-        </button>
-      </div>
-    </form>
+      </form>
+    </details>
   );
 }

@@ -33,10 +33,12 @@ export default function GalleryEditForm({
   const [isFeatured, setIsFeatured] = useState(initialIsFeatured);
   const [isPending, startTransition] = useTransition();
   const [saved, setSaved] = useState(false);
+  const [error, setError] = useState("");
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    setError("");
     setSaved(false);
 
     const formData = new FormData();
@@ -48,86 +50,81 @@ export default function GalleryEditForm({
     formData.set("isFeatured", String(isFeatured));
 
     startTransition(async () => {
-      await updateGalleryImage(formData);
+      try {
+        await updateGalleryImage(formData);
 
-      setSaved(true);
-      router.refresh();
+        setSaved(true);
+        router.refresh();
+      } catch {
+        setError("We could not save this gallery image.");
+      }
     });
   }
 
   return (
-    <>
+    <div className="min-w-0">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h2 className="font-display text-2xl text-bella-charcoal">
+          <p className="font-body text-xs uppercase tracking-[0.18em] text-bella-olive">
+            Edit image
+          </p>
+
+          <h2 className="mt-1 font-display text-3xl tracking-[-0.03em] text-bella-charcoal">
             {title || "Untitled"}
           </h2>
-
-          <p className="mt-1 font-body text-xs uppercase tracking-[0.15em] text-bella-olive">
-            {category}
-          </p>
         </div>
 
         {isFeatured && (
-          <span className="border border-bella-olive/20 bg-bella-olive/10 px-3 py-1 font-body text-[10px] uppercase tracking-[0.12em] text-bella-olive">
+          <span className="shrink-0 border border-bella-olive/20 bg-bella-olive/10 px-3 py-1 font-body text-[10px] uppercase tracking-[0.12em] text-bella-olive">
             Featured
           </span>
         )}
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-6 space-y-5">
-        <div>
-          <label
-            htmlFor={`title-${imageId}`}
-            className="block font-body text-xs uppercase tracking-[0.15em] text-bella-muted"
+      <form onSubmit={handleSubmit} className="mt-7">
+        {error && (
+          <div
+            className="mb-6 border border-bella-terracotta/30 bg-bella-terracotta/10 p-4 font-body text-sm text-bella-terracotta"
+            role="alert"
           >
-            Title
-          </label>
+            {error}
+          </div>
+        )}
 
-          <input
-            id={`title-${imageId}`}
-            value={title}
-            onChange={(event) => setTitle(event.target.value)}
-            disabled={isPending}
-            className="mt-2 w-full border border-bella-line bg-bella-cream px-3 py-2 font-body text-sm text-bella-charcoal outline-none focus:border-bella-olive"
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor={`caption-${imageId}`}
-            className="block font-body text-xs uppercase tracking-[0.15em] text-bella-muted"
-          >
-            Caption
-          </label>
-
-          <textarea
-            id={`caption-${imageId}`}
-            value={caption}
-            onChange={(event) => setCaption(event.target.value)}
-            disabled={isPending}
-            rows={3}
-            className="mt-2 w-full resize-none border border-bella-line bg-bella-cream px-3 py-2 font-body text-sm leading-6 text-bella-charcoal outline-none focus:border-bella-olive"
-          />
-        </div>
-
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-5 md:grid-cols-2">
           <div>
             <label
-              htmlFor={`category-${imageId}`}
+              htmlFor={`gallery-title-${imageId}`}
+              className="block font-body text-xs uppercase tracking-[0.15em] text-bella-muted"
+            >
+              Title
+            </label>
+
+            <input
+              id={`gallery-title-${imageId}`}
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
+              disabled={isPending}
+              className="mt-2 w-full border border-bella-line bg-bella-cream px-3 py-2.5 font-body text-sm text-bella-charcoal outline-none focus:border-bella-olive"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor={`gallery-category-${imageId}`}
               className="block font-body text-xs uppercase tracking-[0.15em] text-bella-muted"
             >
               Category
             </label>
 
             <select
-              id={`category-${imageId}`}
+              id={`gallery-category-${imageId}`}
               value={category}
               onChange={(event) =>
                 setCategory(event.target.value as GalleryCategory)
               }
               disabled={isPending}
-              className="mt-2 w-full border border-bella-line bg-bella-cream px-3 py-2 font-body text-sm text-bella-charcoal outline-none focus:border-bella-olive"
+              className="mt-2 w-full border border-bella-line bg-bella-cream px-3 py-2.5 font-body text-sm text-bella-charcoal outline-none focus:border-bella-olive"
             >
               <option value="FOOD">Food</option>
               <option value="INTERIOR">Interior</option>
@@ -136,45 +133,66 @@ export default function GalleryEditForm({
             </select>
           </div>
 
+          <div className="md:col-span-2">
+            <label
+              htmlFor={`gallery-caption-${imageId}`}
+              className="block font-body text-xs uppercase tracking-[0.15em] text-bella-muted"
+            >
+              Caption
+            </label>
+
+            <textarea
+              id={`gallery-caption-${imageId}`}
+              value={caption}
+              onChange={(event) => setCaption(event.target.value)}
+              disabled={isPending}
+              rows={3}
+              className="mt-2 w-full resize-none border border-bella-line bg-bella-cream px-3 py-2.5 font-body text-sm leading-6 text-bella-charcoal outline-none focus:border-bella-olive"
+            />
+          </div>
+
           <div>
             <label
-              htmlFor={`order-${imageId}`}
+              htmlFor={`gallery-order-${imageId}`}
               className="block font-body text-xs uppercase tracking-[0.15em] text-bella-muted"
             >
               Display order
             </label>
 
             <input
-              id={`order-${imageId}`}
+              id={`gallery-order-${imageId}`}
               type="number"
               min="0"
               value={displayOrder}
               onChange={(event) => setDisplayOrder(event.target.value)}
               disabled={isPending}
-              className="mt-2 w-full border border-bella-line bg-bella-cream px-3 py-2 font-body text-sm text-bella-charcoal outline-none focus:border-bella-olive"
+              className="mt-2 w-full border border-bella-line bg-bella-cream px-3 py-2.5 font-body text-sm text-bella-charcoal outline-none focus:border-bella-olive"
             />
           </div>
+
+          <label className="flex items-center gap-3 self-end pb-2 font-body text-sm text-bella-charcoal">
+            <input
+              type="checkbox"
+              checked={isFeatured}
+              onChange={(event) => setIsFeatured(event.target.checked)}
+              disabled={isPending}
+              className="h-4 w-4"
+            />
+
+            Featured image
+          </label>
+
+          <div className="md:col-span-2">
+            <button
+              type="submit"
+              disabled={isPending}
+              className="w-full bg-bella-charcoal px-4 py-3 font-body text-xs uppercase tracking-[0.15em] text-bella-cream transition hover:bg-bella-olive disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {isPending ? "Saving..." : saved ? "Saved" : "Save changes"}
+            </button>
+          </div>
         </div>
-
-        <label className="flex items-center gap-3 font-body text-sm text-bella-charcoal">
-          <input
-            type="checkbox"
-            checked={isFeatured}
-            onChange={(event) => setIsFeatured(event.target.checked)}
-            disabled={isPending}
-            className="h-4 w-4"
-          />
-          Featured image
-        </label>
-
-        <button
-          type="submit"
-          disabled={isPending}
-          className="w-full bg-bella-charcoal px-4 py-3 font-body text-xs uppercase tracking-[0.15em] text-bella-cream transition hover:bg-bella-olive disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          {isPending ? "Saving..." : saved ? "Saved" : "Save changes"}
-        </button>
       </form>
-    </>
+    </div>
   );
 }
