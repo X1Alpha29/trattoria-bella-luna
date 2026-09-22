@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { getAdminGalleryImages } from "@/lib/admin";
 import GalleryEditForm from "@/components/admin/GalleryEditForm";
+import GalleryCreateForm from "@/components/admin/GalleryCreateForm";
 
 export default async function AdminGalleryPage() {
   const images = await getAdminGalleryImages();
@@ -21,6 +22,9 @@ export default async function AdminGalleryPage() {
           Manage the images, captions and ordering used throughout the
           restaurant website.
         </p>
+        <div className="mt-12">
+          <GalleryCreateForm />
+        </div>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {images.map((image) => (

@@ -29,3 +29,20 @@ export async function getGalleryImages(): Promise<GalleryImageView[]> {
     category: image.category,
   }));
 }
+
+export async function getAllGalleryImages(): Promise<GalleryImageView[]> {
+  const images = await prisma.galleryImage.findMany({
+    orderBy: [
+      { displayOrder: "asc" },
+      { id: "asc" },
+    ],
+  });
+
+  return images.map((image) => ({
+    id: image.id,
+    url: image.url,
+    title: image.title ?? "Bella Luna",
+    caption: image.caption ?? "",
+    category: image.category,
+  }));
+}
