@@ -49,3 +49,19 @@ export async function getAdminGalleryImages() {
     ],
   });
 }
+export async function getAdminMenu() {
+  return prisma.menuCategory.findMany({
+    orderBy: [
+      { displayOrder: "asc" },
+      { id: "asc" },
+    ],
+    include: {
+      items: {
+        orderBy: [
+          { displayOrder: "asc" },
+          { id: "asc" },
+        ],
+      },
+    },
+  });
+}
