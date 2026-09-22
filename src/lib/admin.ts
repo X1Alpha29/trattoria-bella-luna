@@ -47,3 +47,12 @@ export async function getAdminReviews() {
         ],
   });
 }
+
+export async function getAdminGalleryImages() {
+  return prisma.galleryImage.findMany({
+    orderBy: [
+      { displayOrder: "asc" },
+      { id: "asc" },
+    ],
+  });
+}
