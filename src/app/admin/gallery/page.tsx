@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { getAdminGalleryImages } from "@/lib/admin";
+import GalleryEditForm from "@/components/admin/GalleryEditForm";
 
 export default async function AdminGalleryPage() {
   const images = await getAdminGalleryImages();
@@ -38,32 +39,15 @@ export default async function AdminGalleryPage() {
               </div>
 
               <div className="p-6">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <h2 className="font-display text-2xl text-bella-charcoal">
-                      {image.title ?? "Untitled"}
-                    </h2>
-
-                    <p className="mt-1 font-body text-xs uppercase tracking-[0.15em] text-bella-olive">
-                      {image.category}
-                    </p>
-                  </div>
-
-                  {image.isFeatured && (
-                    <span className="border border-bella-olive/20 bg-bella-olive/10 px-3 py-1 font-body text-[10px] uppercase tracking-[0.12em] text-bella-olive">
-                      Featured
-                    </span>
-                  )}
+                <GalleryEditForm
+                    imageId={image.id}
+                    initialTitle={image.title ?? ""}
+                    initialCaption={image.caption ?? ""}
+                    initialCategory={image.category}
+                    initialDisplayOrder={image.displayOrder}
+                    initialIsFeatured={image.isFeatured}
+                />
                 </div>
-
-                <p className="mt-4 font-body text-sm leading-6 text-bella-muted">
-                  {image.caption ?? "No caption added."}
-                </p>
-
-                <p className="mt-4 font-body text-xs text-bella-muted">
-                  Display order: {image.displayOrder}
-                </p>
-              </div>
             </article>
           ))}
 
