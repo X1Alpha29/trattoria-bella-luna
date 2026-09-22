@@ -41,8 +41,9 @@ export async function getAdminReviews() {
         },
       },
     },
-    orderBy: {
-      createdAt: "desc",
-    },
+    orderBy: [
+        { createdAt: "desc" },
+        { id: "asc" },
+        ],
   });
 }

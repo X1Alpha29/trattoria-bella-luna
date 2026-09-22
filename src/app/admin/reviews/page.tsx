@@ -1,4 +1,5 @@
 import { getAdminReviews } from "@/lib/admin";
+import ReviewStatusForm from "@/components/admin/ReviewStatusForm";
 
 export default async function AdminReviewsPage() {
   const reviews = await getAdminReviews();
@@ -69,10 +70,11 @@ export default async function AdminReviewsPage() {
                   </td>
 
                   <td className="px-6 py-5">
-                    <span className="inline-block border border-bella-line bg-bella-cream px-3 py-1 font-body text-xs uppercase tracking-[0.12em] text-bella-charcoal">
-                      {review.status}
-                    </span>
-                  </td>
+                    <ReviewStatusForm
+                        reviewId={review.id}
+                        currentStatus={review.status}
+                    />
+                    </td>
                 </tr>
               ))}
 
