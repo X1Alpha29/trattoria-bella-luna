@@ -5,6 +5,7 @@ import MenuItemEditForm from "@/components/admin/MenuItemEditForm";
 import MenuItemCreateForm from "@/components/admin/MenuItemCreateForm";
 import MenuItemDeleteButton from "@/components/admin/MenuItemDeleteButton";
 import MenuCategoryCreateForm from "@/components/admin/MenuCategoryCreateForm";
+import MenuCategoryEditForm from "@/components/admin/MenuCategoryEditForm";
 
 export default async function AdminMenuPage() {
   const categories = await getAdminMenu();
@@ -24,6 +25,7 @@ export default async function AdminMenuPage() {
           Manage dishes, pricing, availability and featured items displayed
           on the restaurant website.
         </p>
+
         <div className="mt-12">
           <MenuCategoryCreateForm />
         </div>
@@ -40,22 +42,36 @@ export default async function AdminMenuPage() {
         <div className="mt-12 space-y-12">
           {categories.map((category) => (
             <section key={category.id}>
-              <div className="mb-6 flex items-end justify-between gap-4">
-                <div>
-                  <p className="font-body text-xs uppercase tracking-[0.2em] text-bella-olive">
-                    Menu category
-                  </p>
+              <div className="mb-6 flex items-center justify-between gap-4">
+  <div>
+      <p className="font-body text-xs uppercase tracking-[0.2em] text-bella-olive">
+        Menu category
+      </p>
 
-                  <h2 className="mt-2 font-display text-4xl tracking-[-0.04em] text-bella-charcoal">
-                    {category.name}
-                  </h2>
-                </div>
+      <h2 className="mt-2 font-display text-4xl tracking-[-0.04em] text-bella-charcoal">
+        {category.name}
+      </h2>
+    </div>
 
-                <p className="font-body text-sm text-bella-muted">
-                  {category.items.length}{" "}
-                  {category.items.length === 1 ? "dish" : "dishes"}
-                </p>
-              </div>
+    <div className="flex items-center gap-5">
+      <p className="font-body text-sm text-bella-muted">
+        {category.items.length}{" "}
+        {category.items.length === 1 ? "dish" : "dishes"}
+      </p>
+
+      <details>
+        <summary className="cursor-pointer list-none font-body text-xs uppercase tracking-[0.12em] text-bella-olive">
+          Edit
+        </summary>
+
+        <MenuCategoryEditForm
+          categoryId={category.id}
+          initialName={category.name}
+          initialDisplayOrder={category.displayOrder}
+        />
+      </details>
+    </div>
+  </div>
 
               <div className="space-y-3">
                 {category.items.map((item) => (
