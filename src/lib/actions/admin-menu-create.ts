@@ -6,12 +6,6 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/generated/prisma/client";
 
-const allowedCategories = [
-  "FOOD",
-  "INTERIOR",
-  "PEOPLE",
-  "EVENTS",
-] as const;
 
 function createSlug(value: string) {
   return value

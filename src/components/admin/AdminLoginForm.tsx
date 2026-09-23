@@ -1,9 +1,11 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 
 export default function AdminLoginForm() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -28,7 +30,7 @@ export default function AdminLoginForm() {
       return;
     }
 
-    window.location.href = "/admin";
+    router.push("/admin");
   }
 
   return (
