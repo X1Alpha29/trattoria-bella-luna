@@ -3,6 +3,8 @@ import Image from "next/image";
 import { getAdminMenu } from "@/lib/admin";
 import MenuItemEditForm from "@/components/admin/MenuItemEditForm";
 import MenuItemCreateForm from "@/components/admin/MenuItemCreateForm";
+import MenuItemDeleteButton from "@/components/admin/MenuItemDeleteButton";
+import MenuCategoryCreateForm from "@/components/admin/MenuCategoryCreateForm";
 
 export default async function AdminMenuPage() {
   const categories = await getAdminMenu();
@@ -22,14 +24,17 @@ export default async function AdminMenuPage() {
           Manage dishes, pricing, availability and featured items displayed
           on the restaurant website.
         </p>
+        <div className="mt-12">
+          <MenuCategoryCreateForm />
+        </div>
 
         <div className="mt-12">
-        <MenuItemCreateForm
+          <MenuItemCreateForm
             categories={categories.map((category) => ({
-            id: category.id,
-            name: category.name,
+              id: category.id,
+              name: category.name,
             }))}
-        />
+          />
         </div>
 
         <div className="mt-12 space-y-12">
@@ -52,45 +57,114 @@ export default async function AdminMenuPage() {
                 </p>
               </div>
 
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="space-y-3">
                 {category.items.map((item) => (
-                  <article
+                  <details
                     key={item.id}
-                    className="overflow-hidden border border-bella-line bg-bella-white"
+                    className="border border-bella-line bg-bella-white"
                   >
-                    <div className="relative aspect-[4/3] bg-bella-cream-dark">
-                      {item.imageUrl ? (
-                        <Image
-                          src={item.imageUrl}
-                          alt={item.name}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        />
-                      ) : (
-                        <div className="flex h-full items-center justify-center">
-                          <span className="font-display text-4xl text-bella-muted/40">
-                            {item.name.charAt(0)}
-                          </span>
-                        </div>
-                      )}
-                    </div>
+                    <summary className="flex cursor-pointer list-none items-center gap-5 px-5 py-4 sm:px-6">
+                      <div className="relative h-16 w-20 shrink-0 overflow-hidden bg-bella-cream-dark">
+                        {item.imageUrl ? (
+                          <Image
+                            src={item.imageUrl}
+                            alt={item.name}
+                            fill
+                            className="object-cover"
+                            sizes="80px"
+                          />
+                        ) : (
+                          <div className="flex h-full items-center justify-center">
+                            <span className="font-display text-2xl text-bella-muted/40">
+                              {item.name.charAt(0)}
+                            </span>
+                          </div>
+                        )}
+                      </div>
 
-                    <div className="p-6">
-                      <MenuItemEditForm
-                        itemId={item.id}
-                        initialName={item.name}
-                        initialDescription={item.description ?? ""}
-                        initialPrice={item.price.toFixed(2)}
-                        initialImageUrl={item.imageUrl ?? ""}
-                        initialDietaryTags={item.dietaryTags}
-                        initialDisplayOrder={item.displayOrder}
-                        initialIsAvailable={item.isAvailable}
-                        initialIsFeatured={item.isFeatured}
-                        initialFeaturedOrder={item.featuredOrder}
-                      />
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-3">
+                          <h3 className="font-display text-xl text-bella-charcoal">
+                            {item.name}
+                          </h3>
+
+                          <span
+                            className={`border px-2.5 py-1 font-body text-[10px] uppercase tracking-[0.1em] ${
+                              item.isAvailable
+                                ? "border-bella-olive/20 bg-bella-olive/10 text-bella-olive"
+                                : "border-bella-line bg-bella-cream text-bella-muted"
+                            }`}
+                          >
+                            {item.isAvailable ? "Available" : "Unavailable"}
+                          </span>
+
+                          {item.isFeatured && (
+                            <span className="border border-bella-terracotta/20 bg-bella-terracotta/10 px-2.5 py-1 font-body text-[10px] uppercase tracking-[0.1em] text-bella-terracotta">
+                              Featured
+                            </span>
+                          )}
+                        </div>
+
+                        <p className="mt-1 font-body text-sm text-bella-muted">
+                          {item.description || "No description added."}
+                        </p>
+                      </div>
+
+                      <div className="flex shrink-0 items-center gap-5">
+                        <span className="font-body text-sm text-bella-charcoal">
+                          £{item.price.toFixed(2)}
+                        </span>
+
+                        <span className="font-body text-xl text-bella-charcoal">
+                          +
+                        </span>
+                      </div>
+                    </summary>
+
+                    <div className="border-t border-bella-line p-6 sm:p-8">
+                      <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
+                        <div className="relative aspect-[4/3] overflow-hidden bg-bella-cream-dark">
+                          {item.imageUrl ? (
+                            <Image
+                              src={item.imageUrl}
+                              alt={item.name}
+                              fill
+                              className="object-cover"
+                              sizes="280px"
+                            />
+                          ) : (
+                            <div className="flex h-full items-center justify-center">
+                              <span className="font-display text-5xl text-bella-muted/40">
+                                {item.name.charAt(0)}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+
+                        <div>
+                          <MenuItemEditForm
+                            itemId={item.id}
+                            initialName={item.name}
+                            initialDescription={item.description ?? ""}
+                            initialPrice={item.price.toFixed(2)}
+                            initialImageUrl={item.imageUrl ?? ""}
+                            initialDietaryTags={item.dietaryTags}
+                            initialDisplayOrder={item.displayOrder}
+                            initialIsAvailable={item.isAvailable}
+                            initialIsFeatured={item.isFeatured}
+                            initialFeaturedOrder={item.featuredOrder}
+                          />
+
+                          <div className="mt-3">
+                            <MenuItemDeleteButton
+                              itemId={item.id}
+                              itemName={item.name}
+                            />
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </article>
+                  </details>
                 ))}
               </div>
             </section>
