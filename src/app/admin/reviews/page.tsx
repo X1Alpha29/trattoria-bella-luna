@@ -1,5 +1,6 @@
 import { getAdminReviews } from "@/lib/admin";
 import ReviewStatusForm from "@/components/admin/ReviewStatusForm";
+import ReviewFeaturedForm from "@/components/admin/ReviewFeaturedForm";
 
 export default async function AdminReviewsPage() {
   const reviews = await getAdminReviews();
@@ -39,6 +40,10 @@ export default async function AdminReviewsPage() {
                 <th className="px-6 py-4 font-body text-xs uppercase tracking-[0.15em] text-bella-muted">
                   Status
                 </th>
+
+                <th className="px-6 py-4 font-body text-xs uppercase tracking-[0.15em] text-bella-muted">
+                  Featured
+                </th>
               </tr>
             </thead>
 
@@ -63,17 +68,25 @@ export default async function AdminReviewsPage() {
 
                   <td className="px-6 py-5">
                     <ReviewStatusForm
-                        reviewId={review.id}
-                        currentStatus={review.status}
+                      reviewId={review.id}
+                      currentStatus={review.status}
                     />
-                    </td>
+                  </td>
+
+                  <td className="px-6 py-5">
+                    <ReviewFeaturedForm
+                      reviewId={review.id}
+                      initialIsFeatured={review.isFeatured}
+                      isApproved={review.status === "APPROVED"}
+                    />
+                  </td>
                 </tr>
               ))}
 
               {reviews.length === 0 && (
                 <tr>
                   <td
-                    colSpan={4}
+                    colSpan={5}
                     className="px-6 py-16 text-center font-body text-sm text-bella-muted"
                   >
                     No reviews have been submitted yet.
