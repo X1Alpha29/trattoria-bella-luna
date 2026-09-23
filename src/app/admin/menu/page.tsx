@@ -6,6 +6,7 @@ import MenuItemCreateForm from "@/components/admin/MenuItemCreateForm";
 import MenuItemDeleteButton from "@/components/admin/MenuItemDeleteButton";
 import MenuCategoryCreateForm from "@/components/admin/MenuCategoryCreateForm";
 import MenuCategoryEditForm from "@/components/admin/MenuCategoryEditForm";
+import MenuCategoryDeleteButton from "@/components/admin/MenuCategoryDeleteButton";
 
 export default async function AdminMenuPage() {
   const categories = await getAdminMenu();
@@ -64,11 +65,19 @@ export default async function AdminMenuPage() {
           Edit
         </summary>
 
-        <MenuCategoryEditForm
-          categoryId={category.id}
-          initialName={category.name}
-          initialDisplayOrder={category.displayOrder}
-        />
+        <div className="space-y-3">
+          <MenuCategoryEditForm
+            categoryId={category.id}
+            initialName={category.name}
+            initialDisplayOrder={category.displayOrder}
+          />
+
+          <MenuCategoryDeleteButton
+            categoryId={category.id}
+            categoryName={category.name}
+            hasDishes={category.items.length > 0}
+          />
+        </div>
       </details>
     </div>
   </div>
