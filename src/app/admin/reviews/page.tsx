@@ -7,7 +7,7 @@ export default async function AdminReviewsPage() {
 
   return (
     <main className="min-h-screen px-6 py-12 sm:px-10 lg:px-16">
-      <div className="max-w-7xl">
+      <div className="max-w-6xl">
         <p className="font-body text-xs uppercase tracking-[0.25em] text-bella-olive">
           Administration
         </p>
@@ -17,84 +17,55 @@ export default async function AdminReviewsPage() {
         </h1>
 
         <p className="mt-6 max-w-2xl font-body text-base leading-7 text-bella-muted">
-          Review customer feedback and manage which testimonials appear on
+          Moderate customer feedback and choose which testimonials appear on
           the website.
         </p>
 
-        <div className="mt-12 overflow-x-auto border border-bella-line bg-bella-white">
-          <table className="w-full min-w-[1000px] border-collapse text-left">
-            <thead>
-              <tr className="border-b border-bella-line">
-                <th className="px-6 py-4 font-body text-xs uppercase tracking-[0.15em] text-bella-muted">
-                  Customer
-                </th>
-
-                <th className="px-6 py-4 font-body text-xs uppercase tracking-[0.15em] text-bella-muted">
-                  Rating
-                </th>
-
-                <th className="px-6 py-4 font-body text-xs uppercase tracking-[0.15em] text-bella-muted">
-                  Review
-                </th>
-
-                <th className="px-6 py-4 font-body text-xs uppercase tracking-[0.15em] text-bella-muted">
-                  Status
-                </th>
-
-                <th className="px-6 py-4 font-body text-xs uppercase tracking-[0.15em] text-bella-muted">
-                  Featured
-                </th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {reviews.map((review) => (
-                <tr
-                  key={review.id}
-                  className="border-b border-bella-line last:border-b-0"
-                >
-                  <td className="px-6 py-5 font-body text-sm text-bella-charcoal">
+        <div className="mt-12 space-y-3">
+          {reviews.map((review) => (
+            <article
+              key={review.id}
+              className="border border-bella-line bg-bella-white"
+            >
+              <div className="grid gap-4 px-5 py-5 lg:grid-cols-[180px_1fr_auto] lg:items-center lg:px-6">
+                <div>
+                  <h2 className="font-body text-sm font-semibold text-bella-charcoal">
                     {review.customerName}
-                  </td>
+                  </h2>
 
-                  <td className="px-6 py-5 font-body text-sm text-bella-charcoal">
+                  <div className="mt-1 font-body text-sm text-bella-charcoal">
                     {"★".repeat(review.rating)}
                     {"☆".repeat(5 - review.rating)}
-                  </td>
+                  </div>
+                </div>
 
-                  <td className="max-w-md px-6 py-5 font-body text-sm leading-6 text-bella-muted">
-                    {review.comment}
-                  </td>
+                <p className="line-clamp-2 font-body text-sm leading-6 text-bella-muted">
+                  “{review.comment}”
+                </p>
 
-                  <td className="px-6 py-5">
-                    <ReviewStatusForm
-                      reviewId={review.id}
-                      currentStatus={review.status}
-                    />
-                  </td>
+                <div className="flex flex-wrap items-center gap-4 lg:justify-end">
+                  <ReviewStatusForm
+                    reviewId={review.id}
+                    currentStatus={review.status}
+                  />
 
-                  <td className="px-6 py-5">
-                    <ReviewFeaturedForm
-                      reviewId={review.id}
-                      initialIsFeatured={review.isFeatured}
-                      isApproved={review.status === "APPROVED"}
-                    />
-                  </td>
-                </tr>
-              ))}
+                  <ReviewFeaturedForm
+                    reviewId={review.id}
+                    initialIsFeatured={review.isFeatured}
+                    isApproved={review.status === "APPROVED"}
+                  />
+                </div>
+              </div>
+            </article>
+          ))}
 
-              {reviews.length === 0 && (
-                <tr>
-                  <td
-                    colSpan={5}
-                    className="px-6 py-16 text-center font-body text-sm text-bella-muted"
-                  >
-                    No reviews have been submitted yet.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+          {reviews.length === 0 && (
+            <div className="border border-bella-line bg-bella-white px-6 py-16 text-center">
+              <p className="font-body text-sm text-bella-muted">
+                No reviews have been submitted yet.
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </main>
