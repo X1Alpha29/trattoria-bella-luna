@@ -5,10 +5,10 @@ import Link from "next/link";
 
 const navigation = [
   { label: "Home", href: "/" },
-  { label: "Menu", href: "#menu" },
-  { label: "Our Story", href: "#story" },
-  { label: "Gallery", href: "#gallery" },
-  { label: "Contact", href: "#contact" },
+  { label: "Menu", href: "/menu" },
+  { label: "Our Story", href: "/story" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {

@@ -45,7 +45,7 @@ export default function Hero() {
               </Link>
 
               <Link
-                href="#menu"
+                href="/menu"
                 className="inline-flex items-center border border-bella-white/60 px-6 py-4 font-body text-xs font-semibold uppercase tracking-[0.18em] text-bella-white transition-colors duration-300 hover:bg-bella-white hover:text-bella-charcoal"
               >
                 View Menu
