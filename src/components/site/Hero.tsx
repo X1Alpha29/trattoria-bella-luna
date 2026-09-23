@@ -1,7 +1,24 @@
 import Link from "next/link";
-import Navbar from "./Navbar";
 
-export default function Hero() {
+import Navbar from "./Navbar";
+import { getRestaurantSettings } from "@/lib/restaurant";
+
+export default async function Hero() {
+  const settings = await getRestaurantSettings();
+
+  const restaurantName =
+  settings?.restaurantName ?? "Trattoria Bella Luna";
+
+  const tagline =
+    settings?.tagline ?? "Authentic Italian Dining in London";
+
+  const description =
+    settings?.description ??
+    "Authentic Italian flavours, seasonal ingredients and memorable evenings in the heart of London.";
+
+  const address =
+    settings?.address ?? "12–14 Kensington Park Road";
+
   return (
     <section className="relative flex min-h-screen items-end overflow-hidden bg-bella-charcoal">
       <div
@@ -21,7 +38,7 @@ export default function Hero() {
       <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-16 pt-40 lg:px-10 lg:pb-20">
         <div className="max-w-5xl">
           <p className="mb-6 font-body text-xs font-semibold uppercase tracking-[0.3em] text-bella-white/80">
-            Trattoria Bella Luna · London
+            {restaurantName} · {tagline}
           </p>
 
           <h1 className="max-w-5xl font-display text-6xl leading-[0.88] tracking-[-0.055em] text-bella-white sm:text-7xl lg:text-9xl">
@@ -32,8 +49,7 @@ export default function Hero() {
 
           <div className="mt-10 flex flex-col gap-6 sm:flex-row sm:items-center">
             <p className="max-w-md font-body text-sm leading-7 text-bella-white/80 sm:text-base">
-              Authentic Italian flavours, seasonal ingredients and memorable
-              evenings in the heart of London.
+              {description}
             </p>
 
             <div className="flex gap-3">
@@ -57,7 +73,7 @@ export default function Hero() {
         <div className="mt-16 flex items-end justify-between">
           <div className="hidden max-w-xs border-l border-bella-white/40 pl-4 sm:block">
             <p className="font-body text-xs uppercase tracking-[0.2em] text-bella-white/60">
-              12–14 Kensington Park Road
+              {address}
             </p>
           </div>
 

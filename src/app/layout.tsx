@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Bodoni_Moda, Manrope } from "next/font/google";
+
+import { getRestaurantSettings } from "@/lib/restaurant";
+
 import "./globals.css";
 
 const bodoni = Bodoni_Moda({
@@ -14,11 +17,19 @@ const manrope = Manrope({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "Trattoria Bella Luna | Authentic Italian Dining in London",
-  description:
-    "Authentic Italian flavours, seasonal ingredients and memorable evenings in the heart of London.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getRestaurantSettings();
+
+  const restaurantName = settings?.restaurantName ?? "Trattoria Bella Luna";
+  const description =
+    settings?.description ??
+    "Authentic Italian flavours, seasonal ingredients and memorable evenings in the heart of London.";
+
+  return {
+    title: `${restaurantName} | ${settings?.tagline ?? "Authentic Italian Dining in London"}`,
+    description,
+  };
+}
 
 export default function RootLayout({
   children,
