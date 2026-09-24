@@ -4,6 +4,7 @@ import { Bodoni_Moda, Manrope } from "next/font/google";
 import { getRestaurantSettings } from "@/lib/restaurant";
 
 import "./globals.css";
+export const dynamic = "force-dynamic";
 
 const bodoni = Bodoni_Moda({
   variable: "--font-bodoni",
