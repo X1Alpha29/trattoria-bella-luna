@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { PrismaClient, Prisma } from "./generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { hash } from "bcryptjs";
 
 const connectionString = process.env.DATABASE_URL;
 
@@ -18,6 +19,30 @@ const prisma = new PrismaClient({
 
 async function main() {
   console.log("Seeding Trattoria Bella Luna...");
+    const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
+  const adminPassword = process.env.ADMIN_PASSWORD;
+
+  if (!adminEmail || !adminPassword) {
+    throw new Error("ADMIN_EMAIL and ADMIN_PASSWORD are required for seeding.");
+  }
+
+  const passwordHash = await hash(adminPassword, 12);
+
+  await prisma.user.upsert({
+    where: { email: adminEmail },
+    update: {
+      name: "Bella Luna Admin",
+      role: "ADMIN",
+      isActive: true,
+    },
+    create: {
+      name: "Bella Luna Admin",
+      email: adminEmail,
+      passwordHash,
+      role: "ADMIN",
+      isActive: true,
+    },
+  });
 
   // Clear existing development data.
   await prisma.review.deleteMany();
