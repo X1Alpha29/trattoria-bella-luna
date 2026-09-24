@@ -1,26 +1,52 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bella-cream: #f5f1e8;
+  --bella-cream-dark: #e8e1d2;
+  --bella-olive: #4e5d42;
+  --bella-olive-dark: #35402d;
+  --bella-charcoal: #191b17;
+  --bella-terracotta: #b9654b;
+  --bella-muted: #716d63;
+  --bella-line: #d9d2c5;
+  --bella-white: #fffdf8;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--bella-cream);
+  --color-foreground: var(--bella-charcoal);
+
+  --font-display: var(--font-bodoni);
+  --font-body: var(--font-manrope);
+
+  --color-bella-cream: var(--bella-cream);
+  --color-bella-cream-dark: var(--bella-cream-dark);
+  --color-bella-olive: var(--bella-olive);
+  --color-bella-olive-dark: var(--bella-olive-dark);
+  --color-bella-charcoal: var(--bella-charcoal);
+  --color-bella-terracotta: var(--bella-terracotta);
+  --color-bella-muted: var(--bella-muted);
+  --color-bella-line: var(--bella-line);
+  --color-bella-white: var(--bella-white);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background: var(--bella-cream);
+  color: var(--bella-charcoal);
+  font-family: var(--font-manrope), sans-serif;
+}
+
+::selection {
+  background: var(--bella-charcoal);
+  color: var(--bella-cream);
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
 }

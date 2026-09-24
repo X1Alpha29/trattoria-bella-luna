@@ -1,6 +1,7 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  importFileExtension = "ts"
 }
 
 datasource db {
@@ -66,18 +67,20 @@ model MenuCategory {
 }
 
 model MenuItem {
-  id           String   @id @default(uuid()) @db.Uuid
-  categoryId   String   @db.Uuid
-  name         String
-  slug         String   @unique
-  description  String?
-  price        Decimal  @db.Decimal(10, 2)
-  imageUrl     String?
-  isAvailable  Boolean  @default(true)
-  dietaryTags  String[]
-  displayOrder Int      @default(0)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id            String   @id @default(uuid()) @db.Uuid
+  categoryId    String   @db.Uuid
+  name          String
+  slug          String   @unique
+  description   String?
+  price         Decimal  @db.Decimal(10, 2)
+  imageUrl      String?
+  isAvailable   Boolean  @default(true)
+  isFeatured    Boolean  @default(false)
+  featuredOrder Int?
+  dietaryTags   String[]
+  displayOrder  Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   category MenuCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
@@ -96,20 +99,6 @@ model GalleryImage {
   updatedAt    DateTime        @updatedAt
 
   @@index([category, displayOrder])
-}
-
-model TeamMember {
-  id           String   @id @default(uuid()) @db.Uuid
-  name         String
-  role         String
-  bio          String?
-  imageUrl     String?
-  displayOrder Int      @default(0)
-  isActive     Boolean  @default(true)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  reviews Review[]
 }
 
 model Reservation {
@@ -136,14 +125,10 @@ model Review {
   comment      String
   status       ReviewStatus @default(PENDING)
   isFeatured   Boolean      @default(false)
-  teamMemberId String?      @db.Uuid
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 
-  teamMember TeamMember? @relation(fields: [teamMemberId], references: [id], onDelete: SetNull)
-
   @@index([status, isFeatured])
-  @@index([teamMemberId])
 }
 
 model RestaurantSettings {
